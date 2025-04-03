@@ -1,8 +1,9 @@
 import React from "react";
+import * as S from './styled'
 
 const Home = () => {
     return (
-        <h1>Home</h1>
+        <S.Title>Home</S.Title>
     )
 }
 
