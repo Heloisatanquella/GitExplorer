@@ -10,17 +10,20 @@ export default createGlobalStyle`
 
     html, body, #root{
         min-height: 100%;
+        
     }
 
     body{
         background-color:#852a54;
-        font-size: 14px;
+        width: 100vw;
+        height: 100vh;
+        font-size: 0.875rem;
         -webkit-font-smoothing: antialiased !important;
     }
 
     body, input, botton{
         color: #222;
-        font-size: 14px;
+        font-size: 0.875rem;
         font-family: Arial, Helvetica, sans-serif;
     }
 
