@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import API from "../../services/api";
 import * as I from "react-icons/fa";
 import * as S from "./styled";
 
 const Home = () => {
-  const [newRepos, setNewRepos] = useState("");
+  const [newRepo, setNewRepo] = useState("");
+  const [repositorios, setRepositorios] = useState("");
 
   function handleInputChange(e) {
-    setNewRepos(e.target.value);
+    setNewRepo(e.target.value);
   }
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      async function submit() {
+        const response = await API.get(`repos/${newRepo}`);
+
+        const data = {
+          name: response.data.full_name,
+        };
+
+        setRepositorios([...repositorios, data]);
+        setNewRepo("");
+      }
+      submit();
+    },
+    [newRepo, repositorios]
+  );
 
   return (
     <S.Container>
@@ -16,11 +36,11 @@ const Home = () => {
           <I.FaGithub size={25} />
           Meus Repositórios
         </h1>
-        <S.Form onSubmit={() => {}}>
+        <S.Form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Adicionar Repositórios"
-            value={newRepos}
+            value={newRepo}
             onChange={handleInputChange}
           />
           <S.SubmitButton>
