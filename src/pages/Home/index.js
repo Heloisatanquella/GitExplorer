@@ -6,6 +6,7 @@ import * as S from "./styled";
 const Home = () => {
   const [newRepo, setNewRepo] = useState("");
   const [repositorios, setRepositorios] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleInputChange(e) {
     setNewRepo(e.target.value);
@@ -15,14 +16,21 @@ const Home = () => {
     (e) => {
       e.preventDefault();
       async function submit() {
-        const response = await API.get(`repos/${newRepo}`);
+        setIsLoading(true);
+        try {
+          const response = await API.get(`repos/${newRepo}`);
 
-        const data = {
-          name: response.data.full_name,
-        };
+          const data = {
+            name: response.data.full_name,
+          };
 
-        setRepositorios([...repositorios, data]);
-        setNewRepo("");
+          setRepositorios([...repositorios, data]);
+          setNewRepo("");
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsLoading(false);
+        }
       }
       submit();
     },
@@ -43,8 +51,12 @@ const Home = () => {
             value={newRepo}
             onChange={handleInputChange}
           />
-          <S.SubmitButton>
-            <I.FaPlus color="#FFF" size={14} />
+          <S.SubmitButton isLoading={isLoading ? 1 : 0}>
+            {isLoading ? (
+              <I.FaSpinner color="#FFF" size={14} />
+            ) : (
+              <I.FaPlus color="#FFF" size={14} />
+            )}
           </S.SubmitButton>
         </S.Form>
       </S.BoxInput>
