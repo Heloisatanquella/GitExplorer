@@ -67,7 +67,7 @@ export const SubmitButton = styled.button.attrs((props) => ({
     opacity: 0.5;
   }
 
-  ${props =>
+  ${(props) =>
     props.isLoading
       ? css`
           svg {
@@ -75,4 +75,38 @@ export const SubmitButton = styled.button.attrs((props) => ({
           }
         `
       : null}
+`;
+
+export const ReposList = styled.ul`
+  list-style: none;
+  padding: 1rem 0.2rem;
+
+  li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.938rem 0;
+
+    & + li {
+      border-top: 0.063rem solid #eee;
+    }
+
+    a {
+      color: #852a54;
+      text-decoration: none;
+    }
+  }
+`;
+
+export const DeleteButton = styled.button.attrs({
+  type:'button'
+})`
+  margin-left: 0.375rem;
+  background: transparent;
+  color: #852a54;
+  border: 0;
+  padding: 0.5rem 0.438rem;
+  outline: 0;
+  border-radius: 0.25rem
 `;
