@@ -5,12 +5,17 @@ import * as S from "./styled";
 
 const Home = () => {
   const [newRepo, setNewRepo] = useState("");
-  const [repositorios, setRepositorios] = useState("");
+  const [repositorios, setRepositorios] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   function handleInputChange(e) {
     setNewRepo(e.target.value);
   }
+
+  const handleDelete = useCallback((repo) => {
+    const find = repositorios.filter(r => r.name !== repo)
+    setRepositorios(find)
+  }, [repositorios])
 
   const handleSubmit = useCallback(
     (e) => {
@@ -59,6 +64,20 @@ const Home = () => {
             )}
           </S.SubmitButton>
         </S.Form>
+        <S.ReposList>
+          {repositorios.map(repo => (
+            <li key={repo.name}>
+              <span>
+                <S.DeleteButton onClick={() => {handleDelete(repo.name)}}>
+                  <I.FaTrash size={14}/>
+                </S.DeleteButton>
+              {repo.name}</span>
+              <a href="">
+                <I.FaBars size={20}/>
+              </a>
+            </li>
+          ))}
+        </S.ReposList>
       </S.BoxInput>
     </S.Container>
   );
