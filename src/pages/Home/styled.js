@@ -33,7 +33,7 @@ export const Form = styled.form`
 
   input {
     flex: 1;
-    border: 0.063rem solid #ddd;
+    border: 0.063rem solid ${props => (props.error ?'rgb(239, 19, 19)' : '#ddd')};
     padding: 0.625rem 0.938rem;
     border-radius: 0.25rem;
     font-size: 1.063rem;
