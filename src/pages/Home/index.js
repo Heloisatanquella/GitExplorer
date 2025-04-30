@@ -1,13 +1,26 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import API from "../../services/api";
 import * as I from "react-icons/fa";
 import * as S from "./styled";
 
 const Home = () => {
   const [newRepo, setNewRepo] = useState("");
-  const [repositorios, setRepositorios] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+
+  const [repositorios, setRepositorios] = useState(() => {
+    const repoStorage = localStorage.getItem('repos');
+    try {
+      return repoStorage ? JSON.parse(repoStorage) : [];
+    } catch (e) {
+      console.error("Erro ao carregar repositórios do localStorage:", e);
+      return [];
+    }
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('repos', JSON.stringify(repositorios));
+  }, [repositorios]);
 
   function handleInputChange(e) {
     setNewRepo(e.target.value);
