@@ -1,9 +1,8 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
-const Repos = () => {
-    return (
-        <h1>Repositório</h1>
-    )
+export default function Repos() {
+  const { repositorio } = useParams();
+
+  return <h1 style={{ color: "#FFF" }}>{repositorio}</h1>;
 }
-
-export default Repos;
