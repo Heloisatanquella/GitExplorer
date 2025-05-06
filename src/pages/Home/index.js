@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import API from "../../services/api";
 import * as I from "react-icons/fa";
 import * as S from "./styled";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [newRepo, setNewRepo] = useState("");
@@ -9,7 +10,7 @@ const Home = () => {
   const [alert, setAlert] = useState(null);
 
   const [repositorios, setRepositorios] = useState(() => {
-    const repoStorage = localStorage.getItem('repos');
+    const repoStorage = localStorage.getItem("repos");
     try {
       return repoStorage ? JSON.parse(repoStorage) : [];
     } catch (e) {
@@ -17,14 +18,14 @@ const Home = () => {
       return [];
     }
   });
-  
+
   useEffect(() => {
-    localStorage.setItem('repos', JSON.stringify(repositorios));
+    localStorage.setItem("repos", JSON.stringify(repositorios));
   }, [repositorios]);
 
   function handleInputChange(e) {
     setNewRepo(e.target.value);
-    setAlert(null)
+    setAlert(null);
   }
 
   const handleDelete = useCallback(
@@ -40,7 +41,7 @@ const Home = () => {
       e.preventDefault();
       async function submit() {
         setIsLoading(true);
-        setAlert(null)
+        setAlert(null);
         try {
           if (newRepo === "") {
             throw new Error("Você precisa indicar um repositório.");
@@ -61,7 +62,7 @@ const Home = () => {
           setRepositorios([...repositorios, data]);
           setNewRepo("");
         } catch (error) {
-          setAlert(true)
+          setAlert(true);
           console.log(error);
         } finally {
           setIsLoading(false);
@@ -107,9 +108,9 @@ const Home = () => {
                 </S.DeleteButton>
                 {repo.name}
               </span>
-              <a href="">
+              <Link to={`/repositorio/${encodeURIComponent(repo.name)}`}>
                 <I.FaBars size={20} />
-              </a>
+              </Link>
             </li>
           ))}
         </S.ReposList>
