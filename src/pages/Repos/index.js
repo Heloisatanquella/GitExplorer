@@ -43,14 +43,33 @@ export default function Repos() {
   } else {
     return (
       <S.Container>
-          <S.BackButton to="/">
-            <FaArrowLeft color="#000" size={30} />
-          </S.BackButton>
+        <S.BackButton to="/">
+          <FaArrowLeft color="#000" size={30} />
+        </S.BackButton>
         <S.Owner>
           <img src={repos.owner?.avatar_url} alt={repos.owner?.login} />
           <h1>{repos.name}</h1>
           <p>{repos.description}</p>
         </S.Owner>
+        <S.IssuesList>
+          {issues.map((issue) => (
+            <li key={String(issue.id)}>
+              <img src={issue.user.avatar_url} alt={issue.user.login} />
+
+              <div>
+                <strong>
+                  <a href={issue.html_url}>{issue.title}</a>
+                  {issue.labels.map(label => (
+                    <span key={String(label.id)}>
+                      {label.name}
+                    </span>
+                  ))}
+                </strong>
+                <p>{issue.user.login}</p>
+              </div>
+            </li>
+          ))}
+        </S.IssuesList>
       </S.Container>
     );
   }

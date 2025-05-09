@@ -26,6 +26,7 @@ export const Owner = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0rem 0rem 2rem;
 
   img {
     width: 9.375rem;
@@ -34,7 +35,7 @@ export const Owner = styled.header`
 
   h1 {
     font-size: 1.875rem;
-    color: rgb(93, 30, 60);
+    color: #5d1e3c;
   }
 
   p {
@@ -47,7 +48,64 @@ export const Owner = styled.header`
 `;
 
 export const BackButton = styled(Link)`
-    border: 0;
-    outline: 0;
-    background: transparent;
+  border: 0;
+  outline: 0;
+  background: transparent;
+`;
+
+export const IssuesList = styled.ul`
+  padding-top: 2rem;
+  border-top: 0.063rem solid #eee;
+  list-style: none;
+
+  & + li {
+    padding-top: 0.75rem;
+  }
+
+  li {
+    display: flex;
+    padding: 0.938rem 0.625rem;
+
+    img {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      border: 0.125rem solid #5d1e3c;
+    }
+
+    div{
+      flex: 1;
+      padding-left: 0.75rem;
+
+      p{
+        padding-top: 0.625rem;
+        font-size: 0.75rem;
+        color: #000;
+      }
+    }
+
+    strong{
+      font-size: 0.938rem;
+
+      a{
+        text-decoration: none;
+        color: #222;
+        transform: 0.3s;
+
+        &:hover {
+          color:rgb(210, 20, 112);
+        }
+      }
+
+      span{
+        background: #222;
+        color: #fff;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.313rem 0.438rem;
+        margin-left: 0.625rem;
+      }
+    }
+  }
 `;
