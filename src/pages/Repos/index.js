@@ -11,6 +11,26 @@ export default function Repos() {
   const [repos, setRepos] = useState({});
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState([
+    {
+      state: "all",
+      label: "Todas",
+      active: true,
+    },
+    {
+      state: "open",
+      label: "Abertas",
+      active: false,
+    },
+    {
+      state: "closed",
+      label: "Fechadas",
+      active: false,
+    },
+  ]);
+
+  const [filterIndex, setFilterIndex] = useState(0);
 
   useEffect(() => {
     async function load() {
@@ -19,7 +39,7 @@ export default function Repos() {
           API.get(`/repos/${repositorio}`),
           API.get(`/repos/${repositorio}/issues`, {
             params: {
-              state: "open",
+              state: filters.find((f) => f.active).state,
               per_page: 5,
             },
           }),
@@ -32,7 +52,32 @@ export default function Repos() {
       }
     }
     load();
-  }, [repositorio]);
+  }, [repositorio, filters]);
+
+  useEffect(() => {
+    async function loadIssue() {
+      const response = await API.get(`/repos/${repositorio}/issues`, {
+        params: {
+          state: filters[filterIndex].state,
+          page,
+          per_page: 5,
+        },
+      });
+
+      setIssues(response.data);
+      console.log(filterIndex);
+    }
+
+    loadIssue();
+  }, [filterIndex, filters, repositorio, page]);
+
+  function handlePage(action) {
+    setPage(action === "back" ? page - 1 : page + 1);
+  }
+
+  function handleFilter(index) {
+    setFilterIndex(index);
+  }
 
   if (loading) {
     return (
@@ -51,6 +96,17 @@ export default function Repos() {
           <h1>{repos.name}</h1>
           <p>{repos.description}</p>
         </S.Owner>
+        <S.FilterList active={filterIndex}>
+          {filters.map((filter, index) => (
+            <button
+              type="button"
+              key={filter.label}
+              onClick={() => handleFilter(index)}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </S.FilterList>
         <S.IssuesList>
           {issues.map((issue) => (
             <li key={String(issue.id)}>
@@ -59,10 +115,8 @@ export default function Repos() {
               <div>
                 <strong>
                   <a href={issue.html_url}>{issue.title}</a>
-                  {issue.labels.map(label => (
-                    <span key={String(label.id)}>
-                      {label.name}
-                    </span>
+                  {issue.labels.map((label) => (
+                    <span key={String(label.id)}>{label.name}</span>
                   ))}
                 </strong>
                 <p>{issue.user.login}</p>
@@ -70,6 +124,18 @@ export default function Repos() {
             </li>
           ))}
         </S.IssuesList>
+        <S.PageActions>
+          <button
+            type="button"
+            onClick={() => handlePage("back")}
+            disabled={page < 2}
+          >
+            Anterior
+          </button>
+          <button type="button" onClick={() => handlePage("next")}>
+            Próxima
+          </button>
+        </S.PageActions>
       </S.Container>
     );
   }
