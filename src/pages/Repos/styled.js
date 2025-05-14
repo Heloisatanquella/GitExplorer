@@ -81,6 +81,7 @@ export const IssuesList = styled.ul`
         padding-top: 0.625rem;
         font-size: 0.75rem;
         color: #000;
+        padding-left: 0.3125rem;
       }
     }
 
@@ -91,6 +92,7 @@ export const IssuesList = styled.ul`
         text-decoration: none;
         color: #222;
         transform: 0.3s;
+        padding-left: 0.3125rem;
 
         &:hover {
           color: rgb(210, 20, 112);
@@ -98,13 +100,14 @@ export const IssuesList = styled.ul`
       }
 
       span {
-        background: #222;
+        display: inline-block;
+        background: #333;
         color: #fff;
+        padding: 0.4rem;
+        margin: 0.3125rem 0.3125rem 0 0.3125rem;
         border-radius: 0.25rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0.313rem 0.438rem;
-        margin-left: 0.625rem;
+        font-size: 12px;
+        white-space: nowrap;
       }
     }
   }
@@ -124,8 +127,8 @@ export const PageActions = styled.div`
     border-radius: 0.25rem;
 
     &:hover {
-      background:rgb(189, 57, 121);
-      color: #FFF;
+      background: rgb(189, 57, 121);
+      color: #fff;
     }
 
     &:disabled {
@@ -147,15 +150,15 @@ export const FilterList = styled.div`
     border-radius: 0.25rem;
     margin: 0 0.188rem;
 
-     &:hover {
-      background:rgb(189, 57, 121);
-      color: #FFF;
+    &:hover {
+      background: rgb(189, 57, 121);
+      color: #fff;
       transition: 0.3s;
     }
 
-    &:nth-child(${props => props.active + 1}){
-      background:#5d1e3c;
-      color: #FFF;
+    &:nth-child(${(props) => props.active + 1}) {
+      background: #5d1e3c;
+      color: #fff;
     }
   }
 `;
