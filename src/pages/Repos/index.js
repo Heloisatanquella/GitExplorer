@@ -11,6 +11,7 @@ export default function Repos() {
   const [repos, setRepos] = useState({});
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function load() {
@@ -33,6 +34,26 @@ export default function Repos() {
     }
     load();
   }, [repositorio]);
+
+  useEffect(() => {
+    async function loadIssue() {
+      const response = await API.get(`/repos/${repositorio}/issues`, {
+        params: {
+          state: "open",
+          page,
+          per_page: 5,
+        },
+      });
+
+      setIssues(response.data);
+    }
+
+    loadIssue();
+  }, [page, repositorio]);
+
+  function handlePage(action) {
+    setPage(action === "back" ? page - 1 : page + 1);
+  }
 
   if (loading) {
     return (
@@ -59,10 +80,8 @@ export default function Repos() {
               <div>
                 <strong>
                   <a href={issue.html_url}>{issue.title}</a>
-                  {issue.labels.map(label => (
-                    <span key={String(label.id)}>
-                      {label.name}
-                    </span>
+                  {issue.labels.map((label) => (
+                    <span key={String(label.id)}>{label.name}</span>
                   ))}
                 </strong>
                 <p>{issue.user.login}</p>
@@ -70,6 +89,14 @@ export default function Repos() {
             </li>
           ))}
         </S.IssuesList>
+        <S.PageActions>
+          <button type="button" onClick={() => handlePage("back")} disabled={page < 2}>
+            Anterior
+          </button>
+          <button type="button" onClick={() => handlePage("next")}>
+            Próxima
+          </button>
+        </S.PageActions>
       </S.Container>
     );
   }
