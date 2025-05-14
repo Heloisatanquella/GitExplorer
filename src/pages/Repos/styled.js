@@ -124,12 +124,38 @@ export const PageActions = styled.div`
     border-radius: 0.25rem;
 
     &:hover {
-      background: rgb(151, 17, 82);
+      background:rgb(189, 57, 121);
+      color: #FFF;
     }
 
-    &:disabled{
+    &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
+    }
+  }
+`;
+
+export const FilterList = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0rem 0.5rem 2rem;
+
+  button {
+    outline: 0;
+    border: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    margin: 0 0.188rem;
+
+     &:hover {
+      background:rgb(189, 57, 121);
+      color: #FFF;
+      transition: 0.3s;
+    }
+
+    &:nth-child(${props => props.active + 1}){
+      background:#5d1e3c;
+      color: #FFF;
     }
   }
 `;
